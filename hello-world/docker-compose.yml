@@ -1,3 +1,4 @@
 services:
     hello-world:
         image: hello-world:latest
+        command: tail -f /dev/null

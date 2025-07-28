@@ -2,7 +2,7 @@ terraform {
   required_providers {
     portainer = {
       source  = "portainer/portainer"
-      version = ">= 1.0.0"
+      version = ">= 1.9.0"
     }
   }
 }
@@ -32,10 +32,17 @@ locals {
   }
 }
 
+output "compose_paths" {
+  value = local.compose_paths
+}
+
+output "stacks_map" {
+  value = local.stacks
+}
+
 # create stack for each file
 resource "portainer_stack" "swarm_repo" {
-  for_each = local.stacks
-
+  for_each                  = local.stacks
   name                      = each.key
   deployment_type           = "swarm"
   method                    = "repository"
