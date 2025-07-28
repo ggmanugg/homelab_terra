@@ -2,7 +2,7 @@ terraform {
   required_providers {
     portainer = {
       source  = "portainer/portainer"
-      version = ">= 1.9.0"
+      version = "~> 1.9.0"
     }
   }
 }
@@ -35,7 +35,6 @@ locals {
 output "compose_paths" {
   value = local.compose_paths
 }
-
 output "stacks_map" {
   value = local.stacks
 }
