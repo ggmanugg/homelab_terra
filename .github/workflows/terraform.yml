@@ -1,0 +1,92 @@
+name: "Terraform Portainer Stack Deployment"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+      - '**/docker-compose.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+      - '**/docker-compose.yml'
+
+env:
+  TF_LOG: INFO
+  TF_VAR_portainer_endpoint: ${{ secrets.PORTAINER_ENDPOINT }}
+  TF_VAR_portainer_api_key:  ${{ secrets.PORTAINER_API_KEY }}
+
+jobs:
+  terraform:
+    name: "Terraform Portainer Deployment"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+
+      - name: Comment PR with Terraform Report
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          PLAN_OUT: ${{ steps.plan.outputs.stdout }}
+        with:
+          script: |
+            const body = `
+              #### Terraform Format 🖌: \`${{ steps.fmt.outcome }}\`
+              #### Terraform Init ⚙️: \`${{ steps.init.outcome }}\`
+              #### Terraform Validate 🤖: \`${{ steps.validate.outcome }}\`
+              #### Terraform Plan 📖: \`${{ steps.plan.outcome }}\`
+
+              <details><summary>Plan Details</summary>
+
+              \`\`\`bash
+              ${process.env.PLAN_OUT}
+              \`\`\`
+
+              </details>
+
+              *Run by @${{ github.actor }} via \`${{ github.event_name }}\`*
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });
+
+      - name: Fail if Plan Failed
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
