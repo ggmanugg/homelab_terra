@@ -1,0 +1,25 @@
+# Terraform Plugin-Cache
+.terraform/
+**/.terraform/
+
+# Terraform State
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform Lock File
+.terraform.lock.hcl
+
+# Terraform Crash Logs
+crash.log
+
+# Lokale Override-/Variablen-Dateien
+override.tf
+override.tf.json
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Plan-Outputs
+*.plan

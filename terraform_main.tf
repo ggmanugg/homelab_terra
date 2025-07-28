@@ -21,7 +21,7 @@ variable "portainer_api_key" {
 
 # find all docker-compose.yml in first level
 locals {
-  compose_paths = fileset(path.module, "*/*/docker-compose.yml")
+  compose_paths = fileset(path.module, "*/docker-compose.yml")
 }
 
 # create map key=name
@@ -40,7 +40,7 @@ resource "portainer_stack" "swarm_repo" {
   deployment_type           = "swarm"
   method                    = "repository"
   endpoint_id               = 1
-  repository_url            = "https://github.com/ggmanugg/homelab_terra.git"
-  repository_reference_name = "main"
-  compose_file_path         = each.value
+  repository_url            = "https://github.com/ggmanugg/homelab_terra"
+  repository_reference_name = "refs/heads/main"
+  file_path_in_repository   = each.value
 }
