@@ -33,12 +33,13 @@ locals {
 }
 
 # create stack for each file
-resource "portainer_stack" "dynamic" {
+resource "portainer_stack" "swarm_rep" {
   for_each = local.stacks
 
   name                      = each.key
   deployment_type           = "swarm"
   method                    = "repository"
+  endpoint_id               = 1
   repository_url            = "https://github.com/ggmanugg/homelab_terra.git"
   repository_reference_name = "main"
   compose_file_path         = each.value
