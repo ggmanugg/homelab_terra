@@ -33,7 +33,7 @@ locals {
 }
 
 # create stack for each file
-resource "portainer_stack" "swarm_rep" {
+resource "portainer_stack" "swarm_repo" {
   for_each = local.stacks
 
   name                      = each.key
