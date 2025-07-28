@@ -16,9 +16,6 @@ on:
       - '**/docker-compose.yml'
 
 env:
-  # für Terraform Debug-Logs
-  TF_LOG: INFO
-
   # Portainer-Credentials aus den Repo-Secrets
   TF_VAR_portainer_endpoint: ${{ secrets.PORTAINER_ENDPOINT }}
   TF_VAR_portainer_api_key:  ${{ secrets.PORTAINER_API_KEY }}
