@@ -7,3 +7,7 @@ variable "repository_ref" {
   type    = string
   default = "refs/heads/main"
 }
+
+variable "portainer_endpoint" {}
+variable "portainer_api_key" {}
+variable "portainer_endpoint_id" {}
