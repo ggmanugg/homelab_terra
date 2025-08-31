@@ -1,22 +1,18 @@
-# .github/workflows/terraform.yml
-name: "Terraform Portainer Dynamic Stacks"
+name: "Terraform Portainer Stacks"
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'terraform_main.tf'
-      - '**/docker-compose.yml'
+      - '**/compose.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'terraform_main.tf'
-      - '**/docker-compose.yml'
+      - '**/compose.yml'
 
 env:
-  # Portainer-Credentials aus den Repo-Secrets
   TF_VAR_portainer_endpoint: ${{ secrets.PORTAINER_ENDPOINT }}
   TF_VAR_portainer_api_key:  ${{ secrets.PORTAINER_API_KEY }}
 
@@ -27,16 +23,16 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: .   # Repo‑Root, wo terraform_main.tf liegt
+        working-directory: ./terraform
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v5.0.0
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v3.1.2
         with:
-          terraform_version: 1.3.0
+          terraform_version: 1.13.1
 
       - name: Terraform Init
         id: init
@@ -57,16 +53,16 @@ jobs:
 
       - name: Comment PR with Terraform Report
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v7.0.1
         env:
           PLAN_OUT: ${{ steps.plan.outputs.stdout }}
         with:
           script: |
             const body = `
-              #### Terraform Format 🖌: \`${{ steps.fmt.outcome }}\`
-              #### Terraform Init ⚙️: \`${{ steps.init.outcome }}\`
-              #### Terraform Validate 🤖: \`${{ steps.validate.outcome }}\`
-              #### Terraform Plan 📖: \`${{ steps.plan.outcome }}\`
+              #### Terraform Format🖌: \`${{ steps.fmt.outcome }}\`
+              #### Terraform Init⚙️: \`${{ steps.init.outcome }}\`
+              #### Terraform Validate🤖: \`${{ steps.validate.outcome }}\`
+              #### Terraform Plan📖: \`${{ steps.plan.outcome }}\`
 
               <details><summary>Plan Details</summary>
 
