@@ -1,4 +1,4 @@
 services:
-  infinite-runner:
+  infinite:
     image: busybox:latest
     command: sh -c "while true; do sleep 3600; done"
