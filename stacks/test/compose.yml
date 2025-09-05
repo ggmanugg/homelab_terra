@@ -1,4 +1,4 @@
 services:
   test:
     image: alpine:latest
-    command: sh -c "while true; do echo 'Container läuft noch ...'; sleep 60; done"
+    command: sh -c "while true; do echo 'Container läuft nach wie vor...'; sleep 60; done"
