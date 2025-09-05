@@ -8,4 +8,8 @@ resource "portainer_stack" "vse002-swarm" {
   repository_url            = var.repository_url
   repository_reference_name = var.repository_ref
   file_path_in_repository   = each.value
+
+  # Optional GitOps enhancements:
+  stack_webhook             = true                      # Enables GitOps webhook
+  force_update              = true                       # Prune services not in compose file
 }
