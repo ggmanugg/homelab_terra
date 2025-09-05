@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "Home-Manu"
     workspaces {
-      name = "homelab_terra"
+      name = "homelab_portainer"
     }
   }
 }
