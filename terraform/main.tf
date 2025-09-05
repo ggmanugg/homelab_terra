@@ -1,4 +1,4 @@
-resource "portainer_stack" "stacks" {
+resource "portainer_stack" "vse002-swarm" {
   for_each = local.stacks
 
   name                      = each.key
