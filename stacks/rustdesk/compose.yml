@@ -1,0 +1,35 @@
+services:
+  hbbs:
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs
+    environment:
+      - ALWAYS_USE_RELAY=Y
+    ports:
+      - '21115:21115'
+      - '21116:21116/tcp'
+      - '21116:21116/udp'
+    volumes:
+      - root:/root
+    networks:
+      - rustdesk
+
+  hbbr:
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr
+    ports:
+      - '21117:21117'
+    volumes:
+      - root:/root
+    networks:
+      - rustdesk
+
+volumes:
+  root:
+
+networks:
+  rustdesk:
+    name: rustdesk
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.30.40.0/24
