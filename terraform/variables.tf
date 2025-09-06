@@ -8,10 +8,6 @@ variable "repository_ref" {
   default = "refs/heads/main"
 }
 
-variable "portainer_endpoint_id" {
-  type    = number
-  default = 1
-}
-
 variable "portainer_endpoint" {}
 variable "portainer_api_key" {}
+variable "github_token" {}
