@@ -13,9 +13,9 @@ on:
       - '**/compose.yml'
 
 env:
-  TF_VAR_PORTAINER_ENDPOINT: ${{ secrets.PORTAINER_ENDPOINT }}
-  TF_VAR_PORTAINER_API_KEY: ${{ secrets.PORTAINER_API_KEY }}
-  TF_VAR_GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  TF_VAR_portainer_endpoint: ${{ secrets.PORTAINER_ENDPOINT }}
+  TF_VAR_portainer_api_key: ${{ secrets.PORTAINER_API_KEY }}
+  TF_VAR_github_token: ${{ secrets.GH_TOKEN }}
 
 jobs:
   terraform:
