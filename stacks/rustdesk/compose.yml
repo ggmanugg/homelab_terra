@@ -1,6 +1,6 @@
 services:
   hbbs:
-    image: rustdesk/rustdesk-server:latest
+    image: rustdesk/rustdesk-server:1.1.14
     command: hbbs
     environment:
       - ALWAYS_USE_RELAY=Y
@@ -14,7 +14,7 @@ services:
       - rustdesk
 
   hbbr:
-    image: rustdesk/rustdesk-server:latest
+    image: rustdesk/rustdesk-server:1.1.14
     command: hbbr
     ports:
       - '21117:21117'
