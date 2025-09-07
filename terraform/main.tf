@@ -9,6 +9,7 @@ resource "portainer_stack" "vse002-swarm" {
   repository_reference_name = var.repository_ref
   file_path_in_repository   = each.value
   stack_webhook             = true
+  prune                     = true
 }
 
 resource "github_repository_webhook" "vse002-swarm" {

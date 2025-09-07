@@ -1,4 +1,4 @@
-name: "Terraform Portainer Stacks"
+name: "Manage Portainer Stacks"
 
 on:
   push:
