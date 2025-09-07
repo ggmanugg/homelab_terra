@@ -1,0 +1,58 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:2025.8.1
+    command: proxy-dns
+    # List of environment variables at https://github.com/cloudflare/cloudflared/blob/master/cmd/cloudflared/proxydns/cmd.go
+    environment:
+      # Listen on all interfaces
+      TUNNEL_DNS_ADDRESS: '0.0.0.0'
+      # Listen on an unprivileged port
+      TUNNEL_DNS_PORT: 5053
+      TUNNEL_DNS_UPSTREAM: 'https://1.0.0.1/dns-query, https://1.1.1.1/dns-query'
+      TZ: 'Europe/Zurich'
+    networks:
+      dns:
+
+  pihole:
+    image: pihole/pihole:2025.08.0
+    # List of environment variables at https://github.com/pi-hole/docker-pi-hole/#environment-variables
+    environment:
+      # Use Cloudflared as the DNS
+      PIHOLE_DNS_: 'cloudflared#5053'
+      TZ: 'Europe/Zurich'
+    ports:
+      - target: 53
+        published: 53
+        protocol: tcp
+        mode: host
+      - target: 53
+        published: 53
+        protocol: udp
+        mode: host
+    volumes:
+      - pihole:/etc/pihole
+      - dnsmasqd:/etc/dnsmasq.d
+    networks:
+      dns:
+      traefik:
+    deploy:
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.pihole.entrypoints=websecure'
+        - 'traefik.http.routers.pihole.middlewares=auth-manu@file'
+        - 'traefik.http.routers.pihole.rule=Host(`pihole.ggmanugg.ch`)'
+        - 'traefik.http.services.pihole.loadbalancer.server.port=80'
+
+volumes:
+  pihole:
+  dnsmasqd:
+
+networks:
+  dns:
+    name: dns
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.30.50.0/24
+  traefik:
+    external: true
