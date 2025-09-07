@@ -11,14 +11,13 @@ resource "portainer_stack" "vse002-swarm" {
   stack_webhook             = true
 }
 
-
-
-resource "github_repository_webhook" "foo" {
-  repository = "homelab_terra"
+resource "github_repository_webhook" "vse002-swarm" {
+  for_each   = local.stacks
+  repository = var.repository_name
 
   configuration {
-    url          = "https://google.de/"
-    content_type = "form"
+    url          = portainer_stack.vse002-swarm[each.key].webhook_url
+    content_type = "json"
   }
 
   events = ["push"]

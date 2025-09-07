@@ -8,6 +8,11 @@ variable "repository_ref" {
   default = "refs/heads/main"
 }
 
+variable "repository_name" {
+  type    = string
+  default = "homelab_terra"
+}
+
 variable "portainer_endpoint" {}
 variable "portainer_api_key" {}
 variable "github_token" {}

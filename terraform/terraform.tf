@@ -2,7 +2,7 @@ terraform {
   required_providers {
     portainer = {
       source  = "portainer/portainer"
-      version = "~> 1.12.0"
+      version = "1.12.0"
     }
     github = {
       source  = "integrations/github"
