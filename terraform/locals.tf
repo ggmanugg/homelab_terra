@@ -5,3 +5,10 @@ locals {
     split("/", f)[0] => "stacks/${f}"
   }
 }
+
+locals {
+  webhook_ids = {
+    for k, s in portainer_stack.vse002-swarm :
+    k => s.webhook_id
+  }
+}

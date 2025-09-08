@@ -8,18 +8,28 @@ resource "portainer_stack" "vse002-swarm" {
   repository_url            = var.repository_url
   repository_reference_name = var.repository_ref
   file_path_in_repository   = each.value
+  
   stack_webhook             = true
-  prune                     = true
+  #prune                     = true
 }
 
-resource "github_repository_webhook" "vse002-swarm" {
-  for_each   = local.stacks
-  repository = var.repository_name
 
-  configuration {
-    url          = portainer_stack.vse002-swarm[each.key].webhook_url
-    content_type = "json"
-  }
 
-  events = ["push"]
+#resource "terraform_data" "always" {
+#  triggers_replace = timestamp()
+#}
+
+
+
+resource "portainer_stack_webhook" "fire" {
+  for_each   = local.webhook_ids
+  webhook_id = each.value
+
+  # sorgt dafür, dass diese Resource bei JEDER Apply ersetzt wird -> Webhook feuert jedes Mal
+ # lifecycle {
+  #  replace_triggered_by = [terraform_data.always.id]
+  #}
+
+  # sicherstellen, dass Stacks bereits existieren
+  depends_on = [portainer_stack.vse002-swarm]
 }
