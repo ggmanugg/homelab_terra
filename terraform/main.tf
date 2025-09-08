@@ -8,8 +8,8 @@ resource "portainer_stack" "vse002-swarm" {
   repository_url            = var.repository_url
   repository_reference_name = var.repository_ref
   file_path_in_repository   = each.value
-  
-  stack_webhook             = true
+
+  stack_webhook = true
   #prune                     = true
 }
 
@@ -26,7 +26,7 @@ resource "portainer_stack_webhook" "fire" {
   webhook_id = each.value
 
   # sorgt dafür, dass diese Resource bei JEDER Apply ersetzt wird -> Webhook feuert jedes Mal
- # lifecycle {
+  # lifecycle {
   #  replace_triggered_by = [terraform_data.always.id]
   #}
 
