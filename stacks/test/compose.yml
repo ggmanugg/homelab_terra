@@ -1,4 +1,0 @@
-services:
-  test:
-    image: alpine:latest
-    command: sh -c "while true; do echo 'Container läuft mies ...'; sleep 60; done"

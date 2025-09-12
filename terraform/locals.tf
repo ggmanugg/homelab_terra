@@ -9,6 +9,6 @@ locals {
 locals {
   webhook_urls = {
     for k, s in portainer_stack.vse002-swarm :
-    k => s.webhook_url
+    k => sensitive(s.webhook_url)
   }
 }
