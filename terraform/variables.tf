@@ -9,8 +9,8 @@ variable "repository_ref" {
 }
 
 variable "swarm_id" {
-  type    = string
-  default = ""
+  type      = string
+  default   = ""
   sensitive = true
 }
 
