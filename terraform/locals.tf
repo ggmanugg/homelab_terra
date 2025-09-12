@@ -7,8 +7,8 @@ locals {
 }
 
 locals {
-  webhook_ids = {
+  webhook_urls = {
     for k, s in portainer_stack.vse002-swarm :
-    k => s.webhook_id
+    k => s.webhook_url
   }
 }

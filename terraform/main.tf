@@ -13,9 +13,18 @@ resource "portainer_stack" "vse002-swarm" {
   #prune        = true
 }
 
-resource "portainer_webhook_execute" "trigger_gitops_stack" {
-  for_each = local.webhook_ids
-  stack_id = each.value
+resource "terraform_data" "redeploy_every_apply" {
+  for_each = local.webhook_urls
 
-  depends_on = [portainer_stack.vse002-swarm]
+  triggers_replace = {
+    always = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "curl -fsS -X POST --max-time 20 ${each.value}"
+  }
+
+  depends_on = [
+    portainer_stack.vse002-swarm
+  ]
 }
