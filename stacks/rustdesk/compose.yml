@@ -3,11 +3,11 @@ services:
     image: rustdesk/rustdesk-server:1.1.14
     command: hbbs
     environment:
-      - ALWAYS_USE_RELAY=Y
+      ALWAYS_USE_RELAY: "Y"
     ports:
-      - '21115:21115'
-      - '21116:21116/tcp'
-      - '21116:21116/udp'
+      - "21115:21115"
+      - "21116:21116/tcp"
+      - "21116:21116/udp"
     volumes:
       - root:/root
     networks:
@@ -17,7 +17,7 @@ services:
     image: rustdesk/rustdesk-server:1.1.14
     command: hbbr
     ports:
-      - '21117:21117'
+      - "21117:21117"
     volumes:
       - root:/root
     networks:
