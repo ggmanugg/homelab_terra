@@ -1,0 +1,27 @@
+services:
+  app:
+    image: filebrowser/filebrowser:latest
+    user: "0"
+    environment:
+      FB_NOAUTH: "true"
+    volumes:
+      - /var/lib/docker/volumes/:/srv
+      - db:/database
+      - config:/config
+    networks:
+      - traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.filebrowser.entrypoints=websecure"
+        - "traefik.http.routers.filebrowser.middlewares=auth-manu@file"
+        - "traefik.http.routers.filebrowser.rule=Host(`filebrowser-swarm.ggmanugg.ch`)"
+        - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+
+volumes:
+  db:
+  config:
+
+networks:
+  traefik:
+    external: true

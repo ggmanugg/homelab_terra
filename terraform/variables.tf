@@ -8,11 +8,5 @@ variable "repository_ref" {
   default = "refs/heads/main"
 }
 
-variable "swarm_id" {
-  type      = string
-  default   = ""
-  sensitive = true
-}
-
 variable "portainer_endpoint" {}
 variable "portainer_api_key" {}

@@ -10,14 +10,14 @@ resource "portainer_stack" "vse002-swarm" {
   file_path_in_repository   = each.value
 
   stack_webhook = true
-  #prune        = true
+  #prune         = true
 }
 
-resource "terraform_data" "redeploy_every_apply" {
+resource "terraform_data" "trigger_webhook" {
   for_each = local.webhook_urls
 
   triggers_replace = {
-    always = timestamp()
+    now = timestamp()
   }
 
   provisioner "local-exec" {
